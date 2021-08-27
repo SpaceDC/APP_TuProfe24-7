@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Button, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Button, TextInput, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import firebase from '../database/firebase'
 
 const CreateUserScreen = () => {
@@ -59,13 +59,25 @@ const CreateUserScreen = () => {
             </View>
 
             <View>
-                <Button title="Save User" onPress={() => saveNewUser()}/>
+                <TouchableOpacity
+                    onPress={() => saveNewUser()}
+                    style={styles.boton}>
+                    <Text style={styles.textBoton}>Save User</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
+    textBoton: {
+        fontSize: 20, color: '#fff', textAlign: 'center', textAlignVertical: 'center'
+    },
+
+    boton: {
+        backgroundColor: 'cyan', borderRadius: 40
+    },
+
     container: {
         flex:1,
         padding:35
