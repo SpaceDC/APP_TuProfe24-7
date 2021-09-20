@@ -1,94 +1,210 @@
 import React, {useState} from 'react';
 import { View, Button, TextInput, ScrollView, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
 import firebase from '../database/firebase'
+import { Input } from 'react-native-elements';
 
-const CreateUserScreen = () => {
+const CreateUserScreen = (props) => {
 
-    const [state, setState] = useState({
+    const [state, setState] = useState({ //para guardar el estado de los campos de input
         name: "",
         email: "",
         phone: "",
+        password: "",
+        confirmPassword: ""
     });
 
-    const handleChangeText = (name, value) => {
+    const handleChangeText = (name, value) => {  //tomar lo que se ingresa en el input y guardarlo
         setState({...state, [name]: value });
     };
 
-    const saveNewUser = async () => {
-        if(state.name == '' || state.email == '' || state.phone == ''){
-            alert('Por favor, digite todas las entradas solicitadas')
-        }else {
+    const [eye, setEye] = useState(false);  //para saber si está disponible visualizar la contraseña
+
+    const [stateCredential, setStateCredential] = useState(true);
+    //comprueba que los campos estén bien diligenciados y guarda en la base de datos 
+    const saveNewUser = async () => { 
+        
+        if(state.name == '' || state.email == '' || state.phone == '' || state.password == '' || state.confirmPassword == ''){
+            setStateCredential(false)
+        }
+        //revisa si las contraseñas coinciden
+        else if(state.password != state.confirmPassword){ 
+           alert('Las contraseñas no coinciden')
+        }
+        else { //si todo está diligenciado bien, se llevan los datos a la base de datos
             await firebase.db.collection('users').add({
                 name: state.name,
                 email: state.email,
                 phone: state.phone,
+                password: state.password,
             })
-            //console.log(state) //muestra en consola el dato almacenado
-            alert('Saved')
+
+            alert('Registro exitoso')
+            props.navigation.navigate('StartScreen')
         }
     }
 
-    /*function storeHighScore() {
-        firebase
-          .database()
-          .ref('users/' + state.name)
-    }*/
-
     return (
         <ScrollView style ={styles.container}>
-
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                    placeholder="Name User"
+        {/*título*/}
+            <Text style={styles.tittle}>Registro</Text>
+            {/*Inicio campos para llenar*/}
+        {/*campo para el nombre*/}
+            <View >
+                <Input style = {styles.inputText}
+                    //ícono de la izquierda
+                    leftIcon={<Icon name='account' type="material-community" color='#006fcc'/>}
+                    placeholder="Nombre completo"
+                    //guardar lo que se ingresa
                     onChangeText={(value) => handleChangeText('name', value)}
                 />
             </View>
-
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                    placeholder="Email User"
+        {/*campo para el correo*/}
+            <View  >
+                <Input  style = {styles.inputText}
+                    //ícono de la izquierda
+                    leftIcon={<Icon name='email' type="material-community" color='#006fcc'/>}
+                    placeholder="Correo electrónico"
+                    //guardar lo que se ingresa
                     onChangeText={(value) => handleChangeText('email', value)}
                 />
             </View>
-
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                    placeholder="Phone User"
+        
+        {/*campo para el celular*/}
+             <View  >
+                <Input style = {styles.inputText} 
+                    //ícono de la izquierda
+                    leftIcon={<Icon name='cellphone' type="material-community" color='#006fcc'/>}
+                    placeholder="Número de celular"
+                    //guardar lo que se ingresa
                     onChangeText={(value) => handleChangeText('phone', value)}
                 />
             </View>
+        {/*campo de contraseña*/}
+            <View>                
+                 <Input style={styles.inputText}
+                    //ícono de la izquierda
+                     leftIcon={<Icon name='lock' type="material-community" color='#006fcc'/>}
+                    //ícono de la derecha  (ojo)
+                     rightIcon={
+                          //botón que cambia su estado al ser presionado
+                     <TouchableOpacity onPress={() => setEye(!eye)}>   
+                       {/*para condigurar cuál imagen se muestra al presionar el ojo*/}
+                        <View>
+                          {eye ? <Icon name='eye' type="material-community"  color='#000000' />:
+                          <Icon name='eye-off' type="material-community"  color='#000000' />}
+                        </View>
+                     </TouchableOpacity>}
+                     //la contraseña se censura o no con cada click en el botón del ojo
+                     secureTextEntry={!eye}
+                     placeholder="Contraseña"
+                     //para almacenar el valor ingresado en el campo de texto
+                     onChangeText={(value) => handleChangeText('password', value)}
+                 />
+                    
+                </View>
+        {/*Campo de confirmar contraseña*/}
+        <View>
+                 
+                 <Input style={styles.inputText}
+                    //ícono de la izquierda
+                     leftIcon={<Icon name='lock' type="material-community" color='#006fcc'/>}
+                    //ícono de la derecha  (ojo)
+                     rightIcon={
+                          //botón que cambia su estado al ser presionado
+                     <TouchableOpacity onPress={() => setEye(!eye)}>   
+                       {/*para condigurar cuál imagen se muestra al presionar el ojo*/}
+                        <View>
+                          {eye ? <Icon name='eye' type="material-community"  color='#000000' />:
+                          <Icon name='eye-off' type="material-community"  color='#000000' />}
+                        </View>
+                     </TouchableOpacity>}
+                     //la contraseña se censura o no con cada click en el botón del ojo
+                     secureTextEntry={!eye}
+                     placeholder="Confirmar contraseña"
+                     //para almacenar el valor ingresado en el campo de texto
+                     onChangeText={(value) => handleChangeText('confirmPassword', value)}
+                 />
+                    
+                </View>
+            {/*Fin campos para llenar*/}
 
+        {/*Botón de registro */}
             <View>
                 <TouchableOpacity
                     onPress={() => saveNewUser()}
-                    style={styles.boton}>
-                    <Text style={styles.textBoton}>Save User</Text>
+                    style={styles.blueBotton}>
+                    <Text style={styles.blueBottonText}>Registrarse</Text>
                 </TouchableOpacity>
             </View>
+        {/*mensaje de error si no se ingresa ningún campo */}
+        {stateCredential ? null : <Text style={styles.errorText}>Campos sin diligenciar</Text>}
+        {/*Ya tengo una cuenta*/}
+        <View>
+                <TouchableOpacity
+                    onPress={() => props.navigation.navigate('StartScreen')}
+                    style={styles.loginBotton}>
+                    <Text style={styles.loginBottonText}>Ya tengo una cuenta</Text>
+                </TouchableOpacity>
+        </View>
         </ScrollView>
+
+    
     )
 }
 
 const styles = StyleSheet.create({
-    textBoton: {
-        fontSize: 20, color: '#fff', textAlign: 'center', textAlignVertical: 'center'
+
+    blueBottonText: {       //texto del botón azul
+        fontSize: 19,        
+        color: '#ffffff',    
+        textAlign: 'center',  //letra centrada
+    },
+    blueBotton: {        //estilo del botón azul
+        backgroundColor: '#006fcc', 
+        borderRadius: 40,
+        marginTop: 30,
+        height:47,
+        justifyContent: 'center',  
     },
 
-    boton: {
-        backgroundColor: 'cyan', borderRadius: 40
-    },
-
-    container: {
-        flex:1,
-        padding:35
-    },
-
-    inputGroup: {
+   container: {      //estilo general (del scrollview)
         flex: 1,
-        padding:0,
-        marginBottom: 15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc'
+        paddingTop: 25,                 //margen superior
+        paddingHorizontal: '20%',
+        backgroundColor: '#ffffff', 
+    },
+
+    inputText: {   //modifica el texto de entrada       
+        fontSize: 17,  
+    },
+
+   tittle:{      //estílo del título
+        color: '#006fcc',
+        fontSize:22,
+        fontWeight: 'bold',
+        marginTop: 70,
+        marginBottom: 60,
+        alignSelf: 'center'
+    },
+    loginBotton: {        //estilo del botón      
+        marginTop: 1,
+        height:47,
+        justifyContent: 'center',
+        
+    },
+    loginBottonText: {    //texto del botón
+        fontSize: 17, 
+        color: '#006fcc', 
+        textAlign: 'center',  
+        textDecorationLine: 'underline',
+    },
+    errorText:{
+
+        fontSize: 14, 
+        color: 'red', 
+        textAlign: 'center',  
+        textDecorationLine: 'underline',
     }
 })
 
