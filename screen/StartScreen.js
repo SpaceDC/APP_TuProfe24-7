@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import { View, Button, TextInput, ScrollView, StyleSheet, TouchableOpacity, Text, Image, SafeAreaView } from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
@@ -262,3 +263,57 @@ const styles = StyleSheet.create({
 })
 
 export default StartScreen
+{/*
+
+
+import React, { useState } from 'react'
+import { View, Text , TouchableOpacity, StatusBar, Image} from 'react-native'
+import { loginStyles } from '../components/styles'
+import color from '../components/colors'
+import MyTextInput from '../components/MyTextInput'
+
+export default function StartScreen (){
+
+  const [hidePassword, setHidePassword] = useState(true)
+
+    return (
+        <View style={loginStyles.container}>
+          
+          <StatusBar backgroundColor={color.BLUE} translucent={true}/>
+          <View style={loginStyles.logo}>
+            <Image source={require('../assets/icon.png')}
+            style={{height:275, width:250}}/>
+        </View>
+
+        <View style={loginStyles.head}>
+            <Text style={loginStyles.txtHead}>Tu Profe 24/7</Text>
+        </View>
+
+        <MyTextInput keyboradType='email-adress' placeholder='Correo electrónico' image='user-circle'/>
+        <MyTextInput keyboradType={null} placeholder='Contraseña' image='lock'
+        bolGone={true} secureTextEntry={hidePassword}
+        onPress={() => setHidePassword(!hidePassword)}/>
+
+        <View style={loginStyles.btnMain}>
+          <TouchableOpacity>
+            <Text style={[loginStyles.btntxt, {color: color.WHITE}]}>Iniciar Sesión</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={loginStyles.btnTransparent}>
+          <TouchableOpacity>
+            <Text style={[loginStyles.btntxt, {color: color.BLUE}]}>Registrarse</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity>
+            <Text style={[loginStyles.txtTransparent, {textDecorationLine: 'underline'}]}>Olvidé mi contraseña</Text>
+          </TouchableOpacity>
+        </View>
+        
+      </View>
+  
+    )
+}
+*/}
