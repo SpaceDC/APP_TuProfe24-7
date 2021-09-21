@@ -1,67 +1,112 @@
-import React, {useState, useEffect} from 'react';
-import { View, Button, TextInput, ScrollView, StyleSheet, TouchableOpacity, Text, Image, SafeAreaView } from 'react-native';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
-import { Input } from 'react-native-elements';
-import firebase from '../database/firebase'
+import React, {Component} from 'react';
+import { Button, Text, ViewPagerAndroidBase, View} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet } from 'react-native';
+import {Icon} from 'react-native-elements';
 
-const FirstScreen = (props) => {
+{/* code*/}
+import BottomNavigation, {
+  FullTab
+} from 'react-native-material-bottom-navigation'
 
-  
-    return (
-        <View style ={styles.container}> 
-            <View>
-             <Text style={styles.tittle}>
-                Bienvenido {props.route.params.name}
-             </Text>
-            </View>
-            <View>
-        
-        <TouchableOpacity
-            onPress={() => props.navigation.navigate('StartScreen')}
-            style={styles.loginBotton}>
-            <Text style={styles.loginBottonText}>Cerrar sesión</Text>
-        </TouchableOpacity>
-        </View>
-        </View>
-       
-    )
+
+{/*code2 */}
+
+const HomeScreen= () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={styles.container}>Home screen</Text>
+    </View>
+  );
 }
-//estilos
+
+const ProfilesScreen= () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={styles.container}>Profiles</Text>
+    </View>
+  );
+}
+
+const SettingsScreen= () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={styles.container}>Settings</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+});
 
-    container: {      //estilo general (del scrollview)
-        flex: 1,
-      
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ffffff', 
+const Tab = createBottomTabNavigator();
+
+export default class FirstScreen extends React.Component {
+  tabs = [
+    {
+      key: 'homes',
+      icon: 'home',
+      label: 'Home',
+      screen: <Tab.Screen name="Home" component={HomeScreen} />,
+      barColor: '#0e319c',
+      pressColor: 'rgba(255, 255, 255, 0.16)'
     },
-
-    
-   tittle:{      //estílo del título
-    color: '#006fcc',
-    fontSize:22,
-    fontWeight: 'bold',
+    {
+      key: 'search',
+      icon: 'search',
+      label: 'Search',
+      barColor: '#1369ab',
+      pressColor: 'rgba(255, 255, 255, 0.16)'
     },
+    {
+      key: 'message',
+      icon: 'message',
+      label: 'Message',
+      barColor: '#0e5880',
+      pressColor: 'rgba(255, 255, 255, 0.16)'
+    }
+  ]
 
-    loginBotton: {        //estilo del botón      
-     backgroundColor: '#006fcc', 
-        borderRadius: 40,
-        marginTop: 17,
-        height:47,
-        width:120,
-        justifyContent: 'center', 
-    },
-    loginBottonText: {    //texto del botón
-        fontSize: 17,        
-        color: '#ffffff',    
-        textAlign: 'center',
-    },
+  state = {
+    activeTab: 'homes'
+  }
 
+  renderIcon = icon => ({ isActive }) => (
+    <Icon size={24} color="white" name={icon} />
+  )
 
+  renderTab = ({ tab, isActive }) => (
+    <FullTab
+      isActive={isActive}
+      key={tab.key}
+      label={tab.label}
+      renderIcon={this.renderIcon(tab.icon)}
+    />
+  )
 
-    
-   
-})
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          {/* Your screen contents depending on current tab. */}
+        </View>
+        <BottomNavigation
+          activeTab={this.state.activeTab}
+          onTabPress={newTab => this.setState({ activeTab: newTab.key })}
+          renderTab={this.renderTab}
+          tabs={this.tabs}
+        />
+      </View>
+    )
+  }
+}
 
-export default FirstScreen

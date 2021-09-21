@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import * as firebase from 'firebase'
 import firestore from 'firebase/firestore'
 import 'firebase/firestore'
 import '@firebase/util';
