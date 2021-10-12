@@ -1,9 +1,9 @@
 import * as firebase from 'firebase'
 import firestore from 'firebase/firestore'
-import 'firebase/firestore'
-import '@firebase/util';
+import 'firebase/auth'
+//import '@react-native-firebase/auth'
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCeu0Iw0mgBnkUuc3B86JCgYnv6zFZoAMg",
   authDomain: "bdtuprofe24-7.firebaseapp.com",
   projectId: "bdtuprofe24-7",
@@ -13,9 +13,6 @@ var firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+firebase.firestore();
 
-export default{
-    firebase,
-    db,
-};
+export default firebase;

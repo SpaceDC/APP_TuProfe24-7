@@ -4,21 +4,22 @@ import { View, Button, TextInput, ScrollView, StyleSheet, TouchableOpacity, Text
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { Input } from 'react-native-elements';
 import firebase from '../database/firebase'
+import auth from '@react-native-firebase/auth';
+import { useNavigation } from '@react-navigation/core';
 
 
 const StartScreen = (props) => {
 
-    
     const [state, setState] = useState({ //para guardar el estado de los campos de input
-        email: "",    
-        password: "",
+        email: '',    
+        password: '',
     });
 
     //para cambiar el estado de la variable anterior al escribir en los campos de entrada
     const handleChangeText = (name, value) => { 
         setState({...state, [name]: value });
     };
-
+    
     //para guardar la contraseña de la base de datos
     const [password, setPassword] = useState('');
 
@@ -26,20 +27,9 @@ const StartScreen = (props) => {
     const [name, setName] = useState('');
 
     //realiza la consulta de la contraseña para el email ingresado para poderla comparar
-    const getUserByEmail = async (email) => {
-            const dbQuery = firebase.db.collection('users').where("email", "==", email)
-            const doc = await dbQuery.get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    setPassword(doc.data().password);
-                    setName(doc.data().name);
-                });
-            });        
-         
-    };
+    
     // para poder hacer la consulta a la db
-     useEffect(() => {
-         getUserByEmail(state.email)
-     })
+     
     
     const [eye, setEye] = useState(false);         //para saber si está disponible visualizar la contraseña
 
@@ -50,13 +40,12 @@ const StartScreen = (props) => {
     const [statePassword, setStatePassword] = useState(true);
     const [correctCredentials, setCorrectCredentials] = useState(true);
 
-
-
+    
      //verificar el correcto ingreso de las credenciales 
     const login = () => {
-
+        
     //se utilizan diferentes mensajes dependiendo del error al ingresar datos
-    //campos isn llenar
+    //campos sin llenar
         if(state.email == '' && state.password == '' ){
             setStateCredential(false)
             setStateCorreo(true)
@@ -74,25 +63,17 @@ const StartScreen = (props) => {
             setStateCorreo(true)
             setStateCredential(true)
             setCorrectCredentials(true)
+        }else{
+            //contraseña correcta
+            firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(function (user) {
+		        console.log('Credenciales correctas, ¡bienvenido!');
+                props.navigation.navigate('FirstScreen',{name});
+	        }).catch(function (error) {
+		        console.log(error);
+                alert('Credenciales incorrectas, por favor verifique los datos ingresados e intente nuevamente');
+	        });
         }
-
-        //contraseña correcta
-        else if(password==state.password){
-            setCorrectCredentials(true)
-            setStatePassword(true)
-            setStateCorreo(true)
-            setStateCredential(true)
-           // le pasamos el nombre de la persona que ingresa a la ventana de inicio
-            props.navigation.navigate('FirstScreen',{name})
-         
-        }
-        //credenciales incorrectas
-        else{
-            setCorrectCredentials(false)
-            setStatePassword(true)
-            setStateCorreo(true)
-            setStateCredential(true)
-        }        
+            
     };
     return (
         <ScrollView style ={styles.container}> 
@@ -174,16 +155,17 @@ const StartScreen = (props) => {
              {/*Botón de recuperar contraseña*/}
             <View>
                 <TouchableOpacity
-                    //onPress={() => saveNewUser()}
+                    onPress={() => props.navigation.navigate('RecoverPassword')}
                     style={styles.forgotPasswordBotton}>
                     <Text style={styles.forgotPasswordBottonText}>Olvidé mi contraseña</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
 
-    
+
     )
 }
+
 //estilos
 const styles = StyleSheet.create({
 
