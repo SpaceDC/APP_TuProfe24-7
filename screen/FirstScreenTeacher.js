@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 const Tab = createBottomTabNavigator();
 
-class FirstScreen extends React.Component {
+class FirstScreenTeacher extends React.Component {
   tabs = [
     {
       key: 'homes',
@@ -63,9 +63,9 @@ class FirstScreen extends React.Component {
       pressColor: 'rgba(255, 255, 255, 0.16)'
     },
     {
-      key: 'search',
-      icon: 'search',
-      label: 'Search',
+      key: 'adds',
+      icon: 'add',
+      label: 'Add',
       barColor: '#1369ab',
       pressColor: 'rgba(255, 255, 255, 0.16)'
     },
@@ -108,6 +108,11 @@ class FirstScreen extends React.Component {
                  <Text style={styles.whiteBottonText}>Salir</Text>
                 </TouchableOpacity>
               </View> : null ||
+          
+          this.state.activeTab === 'adds' ? //****Acción si estoy en Adds*******/
+              <View>
+                {this.props.navigation.navigate('Add')}
+              </View> : null ||
 
            this.state.activeTab === 'message' ? //****Acción si estoy en Message*******/
             <View>
@@ -137,5 +142,5 @@ class FirstScreen extends React.Component {
   }
 }
 
-export default FirstScreen
+export default FirstScreenTeacher
 

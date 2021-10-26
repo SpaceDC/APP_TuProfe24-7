@@ -40,7 +40,6 @@ const StartScreen = (props) => {
     const [statePassword, setStatePassword] = useState(true);
     const [correctCredentials, setCorrectCredentials] = useState(true);
 
-    
      //verificar el correcto ingreso de las credenciales 
     const login = () => {
         
@@ -66,8 +65,14 @@ const StartScreen = (props) => {
         }else{
             //contraseña correcta
             firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(function (user) {
-		        console.log('Credenciales correctas, ¡bienvenido!');
-                props.navigation.navigate('FirstScreen',{name});
+                console.log(state.email);
+                if(state.email.search("teacher") === 0 || state.email.search("@profe24/7") === 0){
+                    console.log('Credenciales correctas, ¡bienvenido teacher!');
+                    props.navigation.navigate('FirstScreenTeacher',{name});
+                }else {
+                    console.log('Credenciales correctas, ¡bienvenido student!');
+                    props.navigation.navigate('FirstScreen',{name});
+                }
 	        }).catch(function (error) {
 		        console.log(error);
                 alert('Credenciales incorrectas, por favor verifique los datos ingresados e intente nuevamente');
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
 
     container: {      //estilo general (del scrollview)
         flex: 1,
-        paddingTop: 25,                 //margen superior
+        paddingTop: 0,                 //margen superior
         paddingHorizontal: '20%',
         backgroundColor: '#ffffff', 
     },

@@ -44,14 +44,15 @@ function CreateUserScreen(props) {
 
         else { //si todo está diligenciado bien, se lleva la información a la base de datos
 
-            await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).then(() => {
-                alert('Registro exitoso');
-                firebase.firestore().collection('users').add({
-                    name: state.name,
+            await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).then((result) => {
+                
+                firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set({
+                    displayName: state.name,
                     email: state.email,
-                    phone: state.phone,
+                    phoneNumber: state.phone,
                     //password: state.password,
                 });
+                console.log(result);
                 props.navigation.navigate('StartScreen');
             }).catch(error => {
                 if (error.code === 'auth/email-already-in-use')
@@ -185,7 +186,7 @@ function CreateUserScreen(props) {
 
    container: {      //estilo general (del scrollview)
         flex: 1,
-        paddingTop: 25,                 //margen superior
+        paddingTop: 0,                 //margen superior
         paddingHorizontal: '20%',
         backgroundColor: '#ffffff', 
     },

@@ -13,8 +13,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
   import UserDetailScreen from './screen/UserDetailScreen';
   import StartScreen from './screen/StartScreen';
   import FirstScreen from './screen/FirstScreen';
+  import FirstScreenTeacher from './screen/FirstScreenTeacher';
   import RecoverPassword from './screen/RecoverPassword';
   import ChatScreen from './screen/ChatScreen';
+  import Add from './components/main/Add';
+  import Save from './components/main/Save';
 
 function MyStack () {
   return (
@@ -23,10 +26,13 @@ function MyStack () {
       <Stack.Screen name = "StartScreen" component = {StartScreen}/>  
       <Stack.Screen name = "CreateUserScreen" component = {CreateUserScreen}/>
       <Stack.Screen name = "FirstScreen" component = {FirstScreen}/>
+      <Stack.Screen name = "FirstScreenTeacher" component = {FirstScreenTeacher}/>
       <Stack.Screen name = "UserList" component = {UserList}/>
       <Stack.Screen name = "UserDetailScreen" component = {UserDetailScreen}/>
       <Stack.Screen name = "RecoverPassword" component = {RecoverPassword}/>
       <Stack.Screen name = "ChatScreen" component = {ChatScreen}/>
+      <Stack.Screen name = "Add" component = {Add}/>
+      <Stack.Screen name = "Save" component = {Save}/>
     </Stack.Navigator>
   )
 }
