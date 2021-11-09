@@ -101,6 +101,7 @@ class FirstScreen extends React.Component {
         <View style={{ flex: 1 }}>
           {this.state.activeTab === 'homes' ? //****Acción si estoy en Home*******/
               <View>
+                {this.props.navigation.navigate('HomeScreen')}
                 <TouchableOpacity
                     //usamos props
                     onPress={() => functionsignoutUser(this.props)}
@@ -113,13 +114,13 @@ class FirstScreen extends React.Component {
             <View>
 
               <TouchableOpacity //User01
-                  onPress={() => this.props.navigation.navigate('ChatScreen')}
+                  onPress={() => this.props.navigation.navigate('Chat')}
                   style={styles.whiteBotton}>
                <Text style={styles.whiteBottonText}>TUser1</Text>
               </TouchableOpacity>
 
               <TouchableOpacity //User02
-                  onPress={() => this.props.navigation.navigate('ChatScreen')}
+                  onPress={() => this.props.navigation.navigate('Chat2')}
                   style={styles.whiteBotton}>
                <Text style={styles.whiteBottonText}>TUser2</Text>
               </TouchableOpacity>

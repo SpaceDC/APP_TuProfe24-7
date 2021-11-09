@@ -138,7 +138,7 @@ const AddPostScreen = () => {
         {image != null ? <AddImage source={{uri: image}} /> : null}
 
         <InputField
-          placeholder="What's on your mind?"
+          placeholder="¿Qué tienes en mente?"
           multiline
           numberOfLines={4}
           value={post}

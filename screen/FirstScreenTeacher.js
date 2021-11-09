@@ -1,5 +1,5 @@
 import React, {Component,useState} from 'react';
-import { Button, Text, ViewPagerAndroidBase, View, TouchableOpacity,StyleSheet, FlatList } from 'react-native';
+import { Button, Text, ViewPagerAndroidBase, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -48,12 +48,19 @@ const styles = StyleSheet.create({
     borderColor: '#006fcc',
     alignSelf: 'flex-end'
 },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+}
   
 });
 
 const Tab = createBottomTabNavigator();
 
 class FirstScreenTeacher extends React.Component {
+  
   tabs = [
     {
       key: 'homes',
@@ -95,12 +102,15 @@ class FirstScreenTeacher extends React.Component {
     />
   )
 
+  
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           {this.state.activeTab === 'homes' ? //****Acción si estoy en Home*******/
               <View>
+                {this.props.navigation.navigate('HomeScreen') /*Tener en cuenta para la funcionalidad de los post*/}
                 <TouchableOpacity
                     //usamos props
                     onPress={() => functionsignoutUser(this.props)}
@@ -118,13 +128,13 @@ class FirstScreenTeacher extends React.Component {
             <View>
 
               <TouchableOpacity //User01
-                  onPress={() => this.props.navigation.navigate('ChatScreen')}
+                  onPress={() => this.props.navigation.navigate('Chat')}
                   style={styles.whiteBotton}>
                <Text style={styles.whiteBottonText}>TUser1</Text>
               </TouchableOpacity>
 
               <TouchableOpacity //User02
-                  onPress={() => this.props.navigation.navigate('ChatScreen')}
+                  onPress={() => this.props.navigation.navigate('Chat2')}
                   style={styles.whiteBotton}>
                <Text style={styles.whiteBottonText}>TUser2</Text>
               </TouchableOpacity>
@@ -141,6 +151,26 @@ class FirstScreenTeacher extends React.Component {
     )
   }
 }
+
+const styles2 = StyleSheet.create({
+  container: {
+      flex: 1,
+  },
+  containerInfo: {
+      margin: 20
+  },
+  containerGallery: {
+      flex: 1
+  },
+  containerImage: {
+      flex: 1 / 3
+
+  },
+  image: {
+      flex: 1,
+      aspectRatio: 1 / 1
+  }
+})
 
 export default FirstScreenTeacher
 

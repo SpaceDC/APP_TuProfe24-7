@@ -73,10 +73,10 @@ export default function Save (props) {
                 source={{ uri: props.route.params.image }} 
             />
             <TextInput style={styles.inputText}
-                placeholder="Escribe una descripción . . ."
+                placeholder="Escriba una descripción"
                 onChangeText={(caption) => setCaption(caption)}/>
             <TouchableOpacity
-                onPress={() => uploadImage() && props.navigation.navigate('FirstScreenTeacher')}
+                onPress={() => uploadImage()}
                 style={styles.blueBotton}>
                 <Text style={styles.blueBottonText}>Publicar</Text>
             </TouchableOpacity>
